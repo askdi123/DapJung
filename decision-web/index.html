@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마법의 결정 봉투</title>
+    <style>
+        /* 세련된 배경과 폰트 설정 */
+        body { 
+            font-family: 'Pretendard', -apple-system, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; 
+        }
+        
+        .container { 
+            width: 90%; max-width: 400px; background: white; 
+            padding: 40px 30px; border-radius: 30px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); text-align: center; 
+        }
+
+        h1 { font-size: 1.8rem; color: #2d3436; margin-bottom: 10px; }
+        p { color: #636e72; font-size: 0.9rem; margin-bottom: 30px; }
+        
+        /* 질문 입력창 디자인 */
+        .input-group { margin-bottom: 25px; }
+        input[type="text"] { 
+            width: 100%; padding: 18px; border: 2px solid #f1f2f6; 
+            border-radius: 15px; font-size: 1.1rem; box-sizing: border-box; 
+            outline: none; transition: 0.3s; background: #f8f9fa;
+        }
+        input[type="text"]:focus { border-color: #6c5ce7; background: #fff; }
+
+        /* 결과 표시 영역 */
+        #result-display { 
+            min-height: 140px; display: flex; align-items: center; justify-content: center; 
+            background: #fdfbff; border: 2px dashed #dcdde1; border-radius: 20px; 
+            margin-bottom: 25px; font-size: 1.3rem; font-weight: bold; 
+            color: #6c5ce7; padding: 20px; line-height: 1.6; word-break: keep-all; 
+        }
+
+        /* 버튼 디자인 */
+        button { 
+            width: 100%; padding: 18px; border: none; border-radius: 15px; 
+            background: #6c5ce7; color: white; font-size: 1.2rem; 
+            font-weight: bold; cursor: pointer; transition: 0.3s; 
+            box-shadow: 0 8px 15px rgba(108, 92, 231, 0.3);
+        }
+        button:hover { background: #5b4cc4; transform: translateY(-2px); }
+        button:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔮 마법의 해답</h1>
+    <p>고민되는 질문을 적고 버튼을 누르세요.</p>
+
+    <div class="input-group">
+        <input type="text" id="questionInput" placeholder="예: 오늘 이직 제안 수락할까?" autocomplete="off">
+    </div>
+
+    <div id="result-display">운명이 당신의 질문을 기다립니다.</div>
+
+    <button onclick="getAnswer()">해답 얻기</button>
+</div>
+
+<script>
+    const answers = [
+        // 강력한 긍정
+        "지금 당장 실행하세요!", "우주가 당신을 돕고 있습니다.", "무조건 YES입니다.", "망설이지 말고 고!", "당신의 직감이 정답입니다.",
+        "최고의 타이밍입니다.", "당연히 해야죠!", "오늘이 당신의 날입니다.", "실행에 옮기면 운이 풀립니다.", "도전할 가치가 충분합니다.",
+        // 신중/부정
+        "절대 안 됩니다. 멈추세요.", "지금은 때가 아닙니다.", "다시 한 번 진지하게 생각해보세요.", "나중에 후회할 확률 99%.", "일단 정지!",
+        "위험한 선택일 수 있습니다.", "그건 좀 아닌 것 같은데요?", "준비는 끝났습니다. 하지만 지금은 아닙니다.", "마음을 비우는 게 좋겠어요.", "다른 길을 찾아보세요.",
+        // 현실/위트
+        "통장 잔고 확인하고 다시 물어보세요.", "일단 씻고 잠부터 자세요.", "엄마한테 물어보면 등짝 맞을 소리.", "치킨 한 마리 먹고 다시 생각하셈.", "동전 던지기로 결정하는 게 빠를 듯.",
+        "퇴사? 카드값부터 계산해보시길.", "님 마음은 이미 정해져 있음.", "거울 속의 자신과 대화해보세요.", "월급날이 며칠 남았더라?", "일단 밥부터 먹고 합시다.",
+        // 애매/미래
+        "50대 50의 확률입니다.", "운명에 맡겨보세요.", "3일 뒤에 다시 물어보세요.", "조금 더 지켜볼 필요가 있습니다.", "비밀입니다.",
+        "뜻밖의 소식이 기다립니다.", "시간이 해결해줄 문제입니다.", "내일 다시 시도해보세요.", "반반 무 많이?", "당신의 노력에 달렸습니다."
+    ];
+
+    function getAnswer() {
+        const input = document.getElementById('questionInput');
+        const display = document.getElementById('result-display');
+
+        if (input.value.trim() === "") {
+            alert("질문을 입력해주셔야 해답을 드릴 수 있어요!");
+            return;
+        }
+
+        // 로딩 효과
+        display.innerText = "운명의 실타래를 푸는 중...";
+        display.style.color = "#aaa";
+
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * answers.length);
+            display.innerText = answers[randomIndex];
+            display.style.color = "#6c5ce7";
+            
+            // 질문 완료 후 입력창 비우기 (선택 사항)
+            // input.value = ""; 
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
